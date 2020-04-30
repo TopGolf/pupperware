@@ -59,9 +59,9 @@ spec:
                 - name: puppet-code-storage
                   mountPath: /etc/puppetlabs/code/
           securityContext:
-            runAsUser: 999   # "puppet" UID
-            runAsGroup: 999 # "puppet" GID
-            fsGroup: 999   # "puppet" GID
+            runAsUser: 0
+            runAsNonRoot: false
+            privileged: true
         {{- with .Values.r10k.code.cronJob }}
         {{- if .restartPolicy }}
           restartPolicy: {{ .restartPolicy }}
