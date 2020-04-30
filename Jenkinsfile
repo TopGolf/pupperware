@@ -17,9 +17,9 @@ pipeline {
                     sh "docker run -i -v ${env.WORKSPACE}:/apps -v pupperware-${VERSION}-${BUILD_NUMBER}:/root/.helm alpine/helm:2.14.1 repo add  --username ${artifactoryUsername} --password ${artifactoryPassword} topgolf-helm https://artifactory.topgolf.com/artifactory/topgolf-helm"
                 }
                 sh "docker run -i -v ${env.WORKSPACE}:/apps -v pupperware-${VERSION}-${BUILD_NUMBER}:/root/.helm alpine/helm:2.14.1 repo add bitnami https://charts.bitnami.com/bitnami"
-                sh "docker run -i -v ${env.WORKSPACE}:/apps -v pupperware-${VERSION}-${BUILD_NUMBER}:/root/.helm alpine/helm:2.14.1 dep update /apps/k8s"
+                sh "docker run -i -v ${env.WORKSPACE}:/apps -v pupperware-${VERSION}-${BUILD_NUMBER}:/root/.helm alpine/helm:2.14.1 dep update /apps/pupperware"
                 echo "Building Bay Control Helm Package ${VERSION}"
-                sh "docker run -i -v ${env.WORKSPACE}:/apps -v pupperware-${VERSION}-${BUILD_NUMBER}:/root/.helm alpine/helm:2.14.1 package --version '${VERSION}' /apps/k8s"
+                sh "docker run -i -v ${env.WORKSPACE}:/apps -v pupperware-${VERSION}-${BUILD_NUMBER}:/root/.helm alpine/helm:2.14.1 package --version '${VERSION}' /apps/pupperware"
             }
         }
         stage('Deploy') {
