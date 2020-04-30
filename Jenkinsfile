@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh "mv k8s pupperware"
+                sh "rm -rf pupperware;mv k8s pupperware"
                 echo "Helm INIT"
                 sh "docker run -i -v ${env.WORKSPACE}:/apps -v pupperware-${VERSION}-${BUILD_NUMBER}:/root/.helm alpine/helm:2.14.1 init --client-only"
                 echo "Updating Puppetserver Chart Dendencies"
