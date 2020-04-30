@@ -11,20 +11,20 @@ pipeline {
                 sh "rm -rf pupperware;mv k8s pupperware"
                 echo "Helm INIT"
                 sh "docker run -i -v ${env.WORKSPACE}:/apps -v pupperware-${VERSION}-${BUILD_NUMBER}:/root/.helm alpine/helm:2.14.1 init --client-only"
-                echo "Updating Puppetserver Chart Dendencies"
+                echo "Updating Pupperware Chart Dendencies"
                 withCredentials([usernamePassword(credentialsId: 'artifactory', passwordVariable: 'artifactoryPassword', usernameVariable: 'artifactoryUsername')]) 
                 {
                     sh "docker run -i -v ${env.WORKSPACE}:/apps -v pupperware-${VERSION}-${BUILD_NUMBER}:/root/.helm alpine/helm:2.14.1 repo add  --username ${artifactoryUsername} --password ${artifactoryPassword} topgolf-helm https://artifactory.topgolf.com/artifactory/topgolf-helm"
                 }
                 sh "docker run -i -v ${env.WORKSPACE}:/apps -v pupperware-${VERSION}-${BUILD_NUMBER}:/root/.helm alpine/helm:2.14.1 repo add bitnami https://charts.bitnami.com/bitnami"
                 sh "docker run -i -v ${env.WORKSPACE}:/apps -v pupperware-${VERSION}-${BUILD_NUMBER}:/root/.helm alpine/helm:2.14.1 dep update /apps/pupperware"
-                echo "Building Bay Control Helm Package ${VERSION}"
+                echo "Building Pupperware Helm Package ${VERSION}"
                 sh "docker run -i -v ${env.WORKSPACE}:/apps -v pupperware-${VERSION}-${BUILD_NUMBER}:/root/.helm alpine/helm:2.14.1 package --version '${VERSION}' /apps/pupperware"
             }
         }
         stage('Deploy') {
             steps {
-                echo "Publishing Puppetserver Helm Cart ${VERSION} to Artifactory"
+                echo "Publishing Pupperware Helm Cart ${VERSION} to Artifactory"
                 withCredentials([usernamePassword(credentialsId: 'artifactory', passwordVariable: 'artifactoryPassword', usernameVariable: 'artifactoryUsername')]) 
                 {
                     sh "curl -u${artifactoryUsername}:${artifactoryPassword} -T ${env.WORKSPACE}/pupperware-${VERSION}.tgz https://artifactory.topgolf.com/artifactory/topgolf-helm/pupperware-${VERSION}.tgz"
