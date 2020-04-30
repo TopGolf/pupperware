@@ -22,7 +22,7 @@ spec:
       {{- include "puppetserver.puppetserver.matchLabels" . | nindent 6 }}
 {{- end }}
   accessModes:
-    - ReadWriteOnce
+    - {{ .Values.storage.accessMode }}
   resources:
     requests:
       storage: {{ .Values.storage.size | quote }}

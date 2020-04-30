@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "puppetserver.puppetboard.serviceName" . }}
+  labels:
+    {{- include "puppetserver.puppetboard.labels" . | nindent 4 }}
+  {{- if .Values.puppetboard.service.labels }}
+    {{ toYaml .Values.puppetboard.service.labels | nindent 4 }}
+  {{- end }}
+{{- if .Values.puppetboard.service.annotations }}
+  annotations:
+    {{ toYaml .Values.puppetboard.service.annotations | nindent 4 }}
+{{- end }}
+spec:
+  ports:
+  {{- range $key, $value := .Values.puppetboard.service.ports }}
+    - name: {{ $key }}
+{{ toYaml $value | indent 6 }}
+  {{- end }}
+  selector:
+    {{- include "puppetserver.puppetboard.matchLabels" . | nindent 4 }}
+  type: {{ .Values.puppetboard.service.type }}
+{{- if (and (eq .Values.puppetboard.service.type "LoadBalancer") (not (empty .Values.puppetboard.service.loadBalancerIP))) }}
+  loadBalancerIP: {{ .Values.puppetboard.service.loadBalancerIP }}
+{{- end }}

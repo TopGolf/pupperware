@@ -258,6 +258,46 @@ puppetboard:
   #    cpu: 500m
   ## Additional puppetboard container environment variables
   extraEnv: {}
+  service:
+    type: ClusterIP
+    ## The LB type (network protocol) for some cloud providers must be set here.
+    ports:
+      puppetboard:
+        port: 8000
+      #  protocol: TCP
+    annotations: {}
+    #  service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+    #  service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    #  service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+    #  cloud.google.com/load-balancer-type: "Internal"
+    #  service.kubernetes.io/ibm-load-balancer-cloud-provider-ip-type: "private"
+    labels: {}
+    loadBalancerIP: ""
+  ingress:
+    ## If true, Puppet Board Ingress will be created
+    ##
+    enabled: false
+    ## Puppet Board Ingress annotations
+    ##
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    ## Puppet Board Ingress additional labels
+    ##
+    extraLabels: {}
+    ## Puppet Board Ingress hostnames with optional path
+    ## Must be provided if Ingress is enabled
+    ##
+    hosts: []
+    #   - puppetboard.domain.com
+    #   - domain.com/puppetboard
+    ## Puppet Board Ingress TLS configuration
+    ## Secrets must be manually created in the namespace
+    ##
+    tls: []
+    #   - secretName: puppet-board-tls
+    #     hosts:
+    #       - puppetboard.domain.com
 
 ## Hiera Configuration for Puppet Server
 ##
@@ -335,6 +375,7 @@ storage:
   ##
   ## Please check the `README.md` for more information
   ## regarding useful scenarios about "storageClass".
+  accessMode: "ReadWriteOnce"
   storageClass: ""
   selector: false
   annotations: {}
