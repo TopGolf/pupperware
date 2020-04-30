@@ -39,7 +39,7 @@ spec:
               value: "8080"
           ports:
             - name: puppetboard
-              containerPort: 8000
+              containerPort: {{ .Values.puppetboard.service.ports.puppetboard.port }}
     {{- if .Values.nodeSelector.allPods }}
       nodeSelector:
         {{ toYaml .Values.nodeSelector.allPods | nindent 10 }}
