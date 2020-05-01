@@ -37,6 +37,8 @@ spec:
               value: "puppetdb"
             - name: "PUPPETDB_PORT"
               value: "8080"
+            - name: "PUPPETBOARD_PORT"
+              value: "{{ .Values.puppetboard.service.ports.puppetboard.port }}"
           ports:
             - name: puppetboard
               containerPort: {{ .Values.puppetboard.service.ports.puppetboard.port }}
