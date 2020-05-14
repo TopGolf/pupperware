@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: puppetdb-database-config
+  labels:
+    {{- include "puppetserver.puppetdb.labels" . | nindent 4 }}
+data:
+  database.ini: |
+    [database]
+    maximum-pool-size = 50
+    [read-database]
+    maximum-pool-size = 50
