@@ -52,8 +52,8 @@ spec:
             - name: puppetdb-storage
               mountPath: /opt/puppetlabs/server/data/puppetdb/certs
             - name: puppetdb-database-config
-              mountPath: /etc/puppetlabs/puppetdb/conf.d/database.ini
-              subPath: database.ini
+              mountPath: /etc/puppetlabs/puppetdb/conf.d/database.conf
+              subPath: database.conf
       volumes:
         - name: puppetdb-storage
           persistentVolumeClaim:
