@@ -249,6 +249,7 @@ puppetboard:
   image: puppet/puppetboard
   tag: 0.3.0
   pullPolicy: IfNotPresent
+  refreshRate: 3600
   resources: {}
   #  requests:
   #    memory: 368Mi
