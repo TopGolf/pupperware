@@ -55,6 +55,10 @@ spec:
             - name: postgres-config
               mountPath: /var/lib/postgresql/data/pgdata/postgresql.conf
               subPath: postgresql.conf
+      securityContext:
+        runAsUser: 0
+        runAsNonRoot: false
+        privileged: true
       volumes:
         - name: postgres-storage
           persistentVolumeClaim:
