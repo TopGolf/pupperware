@@ -39,7 +39,7 @@ pipeline {
                 }
                 withCredentials([string(credentialsId: 'jenkins-rancher-prod-cli', variable: 'prodRancherToken')]) 
                 {
-                    sh "docker run -i -v rancher-cli-prod-${BUILD_NUMBER}:/root/.rancher rancher/cli2:v2.2.0 login https://rancher.topgolf.io --token ${prodRancherToken} --context local:p-qxlxk"
+                    sh "docker run -i -v rancher-cli-prod-${BUILD_NUMBER}:/root/.rancher rancher/cli2:v2.2.0 login https://rancher.prod.topgolf.io --token ${prodRancherToken} --context local:p-zgbbz"
                     sh "docker run -i -v rancher-cli-prod-${BUILD_NUMBER}:/root/.rancher rancher/cli2:v2.2.0 catalog refresh topgolf-artifactory"
                 }
             }
