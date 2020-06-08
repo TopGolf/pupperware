@@ -20,6 +20,10 @@ spec:
     {{- end }}
     spec:
       hostname: postgres
+      securityContext:
+        runAsUser: 0
+        runAsNonRoot: false
+        privileged: true
       containers:
         - name: postgres
           image: "{{.Values.postgres.image}}:{{.Values.postgres.tag}}"
@@ -52,13 +56,6 @@ spec:
               mountPath: /var/lib/postgresql/data/
             - name: postgres-custom-extensions
               mountPath: /docker-entrypoint-initdb.d
-            - name: postgres-config
-              mountPath: /var/lib/postgresql/data/pgdata/postgresql.conf
-              subPath: postgresql.conf
-      securityContext:
-        runAsUser: 0
-        runAsNonRoot: false
-        privileged: true
       volumes:
         - name: postgres-storage
           persistentVolumeClaim:
@@ -66,9 +63,6 @@ spec:
         - name: postgres-custom-extensions
           configMap:
             name: postgres-custom-extensions
-        - name: postgres-config
-          configMap:
-            name: postgres-config
     {{- if .Values.nodeSelector.allPods }}
       nodeSelector:
       {{ toYaml .Values.nodeSelector.allPods | nindent 10 }}
