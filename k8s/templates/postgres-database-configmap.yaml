@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "puppetserver.postgres.labels" . | nindent 4 }}
 data:
-  postgresql.conf: |
+  postgresql.conf: |-
   # -----------------------------
   # PostgreSQL configuration file
   # -----------------------------
