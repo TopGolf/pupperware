@@ -200,6 +200,7 @@ r10k:
 ## PostgreSQL Configuration for PuppetDB
 ##
 postgres:
+  enabled: true
   name: postgres
   image: postgres
   tag: 9.6.16
@@ -213,6 +214,7 @@ postgres:
   #    cpu: 750m
   ## Additional postgres container environment variables
   extraEnv: {}
+  hostname: postgres
 
 ## PuppetDB Configuration
 ##
