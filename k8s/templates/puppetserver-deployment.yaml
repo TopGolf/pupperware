@@ -182,10 +182,18 @@ spec:
         {{ toYaml .Values.nodeSelector.commonStoragePods | nindent 10 }}
       {{- end }}
     {{- end }}
-    {{- if .Values.affinity }}
       affinity:
-        {{ toYaml .Values.affinity | nindent 10 }}
-    {{- end }}
+        podAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: component
+                  operator: In
+                  values:
+                  - puppetserver
+              topologyKey: "kubernetes.io/hostname"
     {{- if .Values.tolerations }}
       tolerations:
         {{ toYaml .Values.tolerations| nindent 10 }}
