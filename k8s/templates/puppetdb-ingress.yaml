@@ -1,0 +1,31 @@
+{{- $releaseName := .Release.Name -}}
+{{- $serviceName := include "puppetserver.puppetdb.serviceName" . }}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+{{- if .Values.puppetdb.ingress.annotations }}
+  annotations:
+    {{ toYaml .Values.puppetdb.ingress.annotations | nindent 4 }}
+{{- end }}
+  labels:
+    {{- include "puppetserver.puppetdb.labels" . | nindent 4 }}
+  {{- range $key, $value := .Values.puppetdb.ingress.extraLabels }}
+    {{ $key }}: {{ $value }}
+  {{- end }}
+  name: {{ $serviceName }}
+spec:
+  rules:
+  {{- range .Values.puppetdb.ingress.hosts }}
+    {{- $url := splitList "/" . }}
+    - host: {{ first $url }}
+      http:
+        paths:
+          - path: /{{ rest $url | join "/" }}
+            backend:
+              serviceName: {{ $serviceName }}
+              servicePort: 8080
+  {{- end -}}
+{{- if .Values.puppetdb.ingress.tls }}
+  tls:
+    {{ toYaml .Values.puppetdb.ingress.tls | nindent 4 }}
+{{- end -}}

@@ -133,6 +133,13 @@ puppetboard
 {{- end -}}
 
 {{/*
+Set Puppet DB Service name.
+*/}}
+{{- define "puppetserver.puppetdb.serviceName" -}}
+puppetdb
+{{- end -}}
+
+{{/*
 Create the name for the PuppetDB password secret.
 */}}
 {{- define "puppetdb.secret" -}}

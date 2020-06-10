@@ -241,6 +241,31 @@ puppetdb:
     # if used, the following existing secret must contain "username" and "password" keys, already base64 encoded.
     # using this secret supercedes all other credentials settings.
     existingSecret: ""
+  ingress:
+    ## If true, Puppet Board Ingress will be created
+    ##
+    enabled: false
+    ## Puppet Board Ingress annotations
+    ##
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    ## Puppet Board Ingress additional labels
+    ##
+    extraLabels: {}
+    ## Puppet Board Ingress hostnames with optional path
+    ## Must be provided if Ingress is enabled
+    ##
+    hosts: []
+    #   - puppetboard.domain.com
+    #   - domain.com/puppetboard
+    ## Puppet Board Ingress TLS configuration
+    ## Secrets must be manually created in the namespace
+    ##
+    tls: []
+    #   - secretName: puppet-board-tls
+    #     hosts:
+    #       - puppetboard.domain.com
 
 
 ## Puppetboard Configuration
